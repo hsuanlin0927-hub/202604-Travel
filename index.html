@@ -59,7 +59,7 @@
 
     <div id="modal-pack" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onclick="closePack()"></div>
-        <div class="relative bg-white w-full max-w-2xl h-[85vh] rounded-2xl shadow-xl flex flex-col overflow-hidden border-2 border-rose-200">
+        <div class="relative bg-white w-full max-w-4xl h-[85vh] rounded-2xl shadow-xl flex flex-col overflow-hidden border-2 border-rose-200">
             <div class="bg-gradient-to-r from-rose-400 to-pink-500 text-white p-4 shrink-0 relative overflow-hidden">
                 <div class="absolute -right-4 -top-4 text-6xl opacity-20">✈️</div>
                 <div class="flex justify-between items-center mb-3 relative z-10">
@@ -69,9 +69,10 @@
                 <div class="flex justify-between text-xs mb-1 font-bold relative z-10"><span>打包進度</span><span id="pack-pct">0%</span></div>
                 <div class="w-full bg-white/30 rounded-full h-2 relative z-10"><div id="pack-bar" class="bg-white h-2 rounded-full transition-all duration-300" style="width:0%"></div></div>
             </div>
-            <div class="flex-1 overflow-y-auto p-4 bg-slate-50" id="pack-list"></div>
+            <div class="flex-1 overflow-y-auto p-4 md:p-6 bg-slate-50" id="pack-list">
+                </div>
             <div class="p-3 border-t bg-white flex justify-between items-center shrink-0">
-                <span class="text-[11px] text-slate-500 font-bold">💡 提示：4月早晚溫差大，記得帶防風外套。</span>
+                <span class="text-[11px] md:text-sm text-slate-500 font-bold">💡 提示：4月早晚溫差大，記得帶防風外套。</span>
                 <button onclick="resetPack()" class="text-xs bg-white border border-rose-200 px-3 py-1.5 rounded-lg text-rose-500 font-bold shadow-sm active:scale-95">清空重置</button>
             </div>
         </div>
@@ -85,7 +86,7 @@
             </div>
             <div class="p-4 border-b space-y-3 shrink-0 bg-slate-50">
                 <a href="https://www.usj.co.jp/web/zh/tw/service-guide/parkmap" target="_blank" class="block w-full text-center bg-green-600 text-white py-2 rounded-lg text-sm font-bold shadow-sm">🗺️ 開啟官方地圖 PDF</a>
-                <div class="relative"><span class="absolute inset-y-0 left-3 flex items-center text-slate-400">🔍</span><input type="text" id="usj-search" placeholder="搜尋設施名稱..." class="w-full border p-2 pl-9 rounded-lg text-sm bg-white" onkeyup="renderUSJ()"></div>
+                <div class="relative"><span class="absolute inset-y-0 left-3 flex items-center text-slate-400">🔍</span><input type="text" id="usj-search" placeholder="搜尋設施名稱..." class="w-full border p-2 pl-9 rounded-lg text-sm bg-white outline-none focus:border-usj-blue" oninput="renderUSJ()"></div>
                 <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1" id="usj-filters"></div>
             </div>
             <div class="flex-1 overflow-y-auto p-4 bg-slate-100" id="usj-list"></div>
@@ -102,12 +103,12 @@
                 <form id="exp-form" onsubmit="saveExp(event)">
                     <input type="hidden" id="e-id">
                     <div class="grid grid-cols-2 gap-3 mb-4">
-                        <div><label class="text-xs font-bold text-slate-500 block mb-1">日期 (自動判斷)</label><input type="date" id="e-date" required class="w-full border border-slate-300 p-2 rounded-lg text-sm" onchange="autoRegion()"></div>
-                        <div><label class="text-xs font-bold text-slate-500 block mb-1">地區</label><input type="text" id="e-region" required class="w-full border border-slate-300 bg-slate-50 p-2 rounded-lg text-sm font-bold text-slate-600" readonly></div>
+                        <div><label class="text-xs font-bold text-slate-500 block mb-1">日期 (自動判斷)</label><input type="date" id="e-date" required class="w-full border border-slate-300 p-2 rounded-lg text-sm outline-none focus:border-exp-primary" onchange="autoRegion()"></div>
+                        <div><label class="text-xs font-bold text-slate-500 block mb-1">地區</label><input type="text" id="e-region" required class="w-full border border-slate-300 bg-slate-50 p-2 rounded-lg text-sm font-bold text-slate-600 outline-none" readonly></div>
                     </div>
                     <div class="mb-4">
                         <div class="flex justify-between items-end mb-1"><label class="text-xs font-bold text-slate-500">金額 (日圓 ¥)</label><span class="text-xs text-indigo-600 font-bold bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100" id="e-ntd">約 NT$ 0</span></div>
-                        <input type="number" id="e-amt" required min="0" placeholder="輸入日圓金額" class="w-full border-2 border-slate-300 p-2 rounded-lg text-xl font-black text-indigo-600 focus:border-indigo-500 outline-none transition-colors" oninput="updNTD()">
+                        <input type="number" id="e-amt" required min="0" placeholder="輸入日圓金額" class="w-full border-2 border-slate-300 p-2 rounded-lg text-2xl font-black text-indigo-600 focus:border-indigo-500 outline-none transition-colors" oninput="updNTD()">
                     </div>
                     <div class="mb-4"><label class="text-xs font-bold text-slate-500 block mb-1">店名</label><input type="text" id="e-store" required placeholder="例如：一蘭拉麵" class="w-full border border-slate-300 p-2 rounded-lg text-sm outline-none focus:border-indigo-500"></div>
                     <div class="mb-4"><label class="text-xs font-bold text-slate-500 block mb-1">品項 / 備註</label><input type="text" id="e-items" placeholder="例如：豚骨拉麵x2" class="w-full border border-slate-300 p-2 rounded-lg text-sm outline-none focus:border-indigo-500"></div>
@@ -141,13 +142,13 @@
         <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-xl p-6 text-center flex flex-col items-center">
             <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center text-3xl mb-3 shadow-inner">📸</div>
             <h2 class="text-lg font-bold">AI 收據辨識</h2>
-            <p class="text-xs text-slate-500 mt-1 mb-5">拍照或上傳收據，自動帶入店名與金額。</p>
-            <div class="border-2 border-dashed border-slate-300 rounded-xl w-full p-6 bg-slate-50 relative mb-5 hover:bg-slate-100 transition-colors">
+            <p class="text-xs text-slate-500 mt-1 mb-5">拍照或上傳收據，AI 會自動帶入店名與金額。</p>
+            <div class="border-2 border-dashed border-slate-300 rounded-xl w-full p-6 bg-slate-50 relative mb-5 transition-colors hover:bg-slate-100">
                 <input type="file" id="ai-file" accept="image/*" capture="environment" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleFile(event)">
                 <div id="ai-prompt" class="text-slate-500"><span class="text-3xl block mb-2">📤</span><span class="text-sm font-bold">點擊拍照或上傳圖檔</span></div>
                 <img id="ai-preview" class="hidden max-h-40 mx-auto rounded shadow-sm object-contain" />
             </div>
-            <div id="ai-load" class="hidden flex-col items-center mb-5"><div class="loader mb-3"></div><p class="text-sm text-indigo-600 font-bold">AI 辨識中...</p></div>
+            <div id="ai-load" class="hidden flex-col items-center mb-5"><div class="loader mb-3"></div><p class="text-sm text-indigo-600 font-bold">Gemini AI 辨識中...</p></div>
             <div class="flex gap-3 w-full mt-2">
                 <button onclick="closeAI()" class="flex-1 bg-slate-100 py-2.5 rounded-xl text-sm font-bold text-slate-600 active:scale-95">取消</button>
                 <button id="btn-ai" onclick="processAI()" disabled class="flex-1 bg-indigo-600 text-white py-2.5 rounded-xl text-sm font-bold disabled:opacity-50 active:scale-95 transition-transform">開始辨識</button>
@@ -166,7 +167,7 @@
         </header>
 
         <button onclick="openPack()" class="w-full bg-gradient-to-r from-rose-400 to-pink-500 text-white p-4 rounded-xl shadow-md flex items-center justify-between mb-6 active:scale-95 transition-transform border-2 border-rose-200">
-            <div class="flex items-center gap-4"><span class="text-3xl drop-shadow-sm">🧳</span><div class="text-left"><span class="block font-bold text-lg">專屬出國行李清單</span><span class="block text-[11px] text-rose-100 font-medium">Check List (自動記憶進度)</span></div></div><span class="text-xl font-black">→</span>
+            <div class="flex items-center gap-4"><span class="text-3xl drop-shadow-sm">🧳</span><div class="text-left"><span class="block font-bold text-lg">專屬出國行李清單</span><span class="block text-[11px] text-rose-100 font-medium tracking-wide">Check List (自動記憶進度)</span></div></div><span class="text-2xl font-black opacity-80">→</span>
         </button>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -201,10 +202,9 @@
             </div>
         </header>
 
-        <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 flex flex-col sm:flex-row justify-between gap-3 mb-5">
+        <div class="bg-white px-4 py-3 rounded-xl shadow-sm border border-slate-200 flex flex-col sm:flex-row justify-between gap-3 mb-5">
             <div class="flex items-center justify-between sm:justify-start gap-2 w-full sm:w-auto">
-                <span class="text-xs font-bold text-slate-600 flex items-center gap-1.5">
-                    <span>💱</span>
+                <span class="text-xs font-bold text-slate-600 flex items-center gap-1.5"><span>💱</span>
                     <select id="setting-curr" class="bg-indigo-50 border border-indigo-100 text-indigo-700 py-1 px-1 rounded outline-none" onchange="updCurr(this.value)">
                         <option value="TWD">TWD 台幣</option>
                         <option value="HKD">HKD 港幣</option>
@@ -228,13 +228,13 @@
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 relative overflow-hidden">
                 <div class="absolute -right-2 -bottom-2 text-4xl opacity-5">☀️</div>
                 <span class="text-xs font-bold text-slate-500">今日花費</span>
-                <span class="text-2xl font-black text-indigo-600 block mt-1" id="d-tdy-n">NT$ 0</span>
+                <span class="text-2xl font-black text-indigo-600 block mt-1 truncate" id="d-tdy-n">NT$ 0</span>
                 <span class="text-[11px] font-bold text-slate-400 mt-1 block" id="d-tdy-j">¥ 0</span>
             </div>
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 relative overflow-hidden">
                 <div class="absolute -right-2 -bottom-2 text-4xl opacity-5">📊</div>
                 <span class="text-xs font-bold text-slate-500">旅程累計</span>
-                <span class="text-2xl font-black text-slate-800 block mt-1" id="d-tot-n">NT$ 0</span>
+                <span class="text-2xl font-black text-slate-800 block mt-1 truncate" id="d-tot-n">NT$ 0</span>
                 <span class="text-[11px] font-bold text-slate-400 mt-1 block" id="d-tot-j">¥ 0</span>
             </div>
             <div class="col-span-2 bg-gradient-to-r from-emerald-500 to-teal-500 p-4 rounded-xl shadow-md text-white">
@@ -265,11 +265,11 @@
         <div class="flex justify-around max-w-md mx-auto px-2">
             <button onclick="switchTab('itin')" id="tab-itin" class="nav-tab active flex-1 py-2 flex flex-col items-center text-slate-400 transition-colors">
                 <div class="icon-bg p-1.5 rounded-xl transition-colors"><span class="text-xl block leading-none mb-0.5">📍</span></div>
-                <span class="text-[10px] font-bold mt-0.5">行程導航</span>
+                <span class="text-[10px] mt-0.5 font-bold">行程導航</span>
             </button>
             <button onclick="switchTab('exp')" id="tab-exp" class="nav-tab flex-1 py-2 flex flex-col items-center text-slate-400 transition-colors">
                 <div class="icon-bg p-1.5 rounded-xl transition-colors"><span class="text-xl block leading-none mb-0.5">💰</span></div>
-                <span class="text-[10px] font-bold mt-0.5">共同記帳</span>
+                <span class="text-[10px] mt-0.5 font-bold">共同記帳</span>
             </button>
         </div>
     </nav>
@@ -277,7 +277,7 @@
 
     <script>
         /* -----------------------------------------------------------
-           1. DATA CONFIGURATION (行程資料與還原視覺)
+           1. DATA CONFIGURATION (行程資料與美食)
         ----------------------------------------------------------- */
         const ITIN = [
             { d: 1, dt: "4/19(日)", r: "大阪", real: "2026-04-19", t: "抵達與初探", am: "13:00 抵達機場", pm: "臨空城 Outlet", h: "關西機場 OMO", m: "https://goo.gl/maps/KIX", o:[], i:[{c:'t-spc', l:'去飯店', desc:'搭電車1站即可抵達飯店', s:["搭手扶梯上 2樓","橘色/藍色閘門進站","坐 1站 臨空城下車"]}] },
@@ -293,6 +293,7 @@
             { d: 11, dt: "4/29(三)", r: "大阪", real: "2026-04-29", t: "補貨與臨空城", am: "梅田伴手禮", pm: "前往臨空城", h: "關西機場 OMO", m: "https://goo.gl/maps/Umeda", o:[{c:'t-sub', l:'去梅田', desc:'地鐵', s:["淀屋橋搭 御堂筋線 到梅田"]}], i:[{c:'t-sub', l:'去臨空城', desc:'免轉月台', s:["北濱搭 堺筋線 直達天下茶屋", "出站轉 南海電鐵 到臨空城"]}], nTitle:"💡 警告", nTxt:"梅田阪急當天像跨年一樣擠，建議 10:00 去。" },
             { d: 12, dt: "4/30(四)", r: "大阪", real: "2026-04-30", t: "滿載賦歸", am: "臨空城掃貨", pm: "16:00 抵達機場", h: "溫暖的家", o:[{c:'t-spc', l:'去機場', desc:'直達', s:["搭南海電鐵 1 站到關西機場"]}], i:[] }
         ];
+        const REG_MAP = {}; ITIN.forEach(i => REG_MAP[i.real] = i.r);
 
         const FOOD_GUIDE = {
             '大阪': { t: '🐙 大阪必吃', l: 'https://tabelog.com/tw/osaka/', i: [{ n: '燒肉', d: '松阪牛M、燒肉一斗' }, { n: '串炸', d: '達摩、八重勝' }, { n: '章魚燒', d: '甲賀流' }] },
@@ -306,13 +307,14 @@
             { a: "小小兵樂園", n: "乘車遊", t: "📏 122/102cm" }, { a: "親善村", n: "大白鯊", t: "👤 單人 | 💧 弄溼" }, { a: "好萊塢", n: "美夢乘車遊", t: "👤 單人 | 🎢 刺激 | 📏 132cm" }
         ];
 
+        // 🧳 套用最新的行李清單資料
         const PACK_DATA = [
-            { id: "p1", i: "🛂", t: "證件財物", iL: ["護照 (效期>6個月)", "機票/電子機票", "信用卡/現金", "海外保險單", "日本上網卡/eSIM", "台灣鑰匙"] },
-            { id: "p2", i: "📱", t: "3C 設備", iL: ["手機及充電線", "行動電源 (放隨身)", "相機/記憶卡", "萬國轉接頭"] },
-            { id: "p3", i: "👕", t: "服飾用品", iL: ["衣褲襪/睡衣", "好走球鞋", "防風薄外套", "常備藥品", "保養盥洗包", "折疊購物袋"] }
+            { id: "cat_id", icon: "🛂", title: "證件與貴重物品", desc: "出門前務必檢查 3 遍", color: "rose", items: ["護照 (效期6個月以上) / 簽證", "機票 / 電子機票", "身分證 (備用)", "海外旅行保險單 (旅平險)", "國際駕照 / 本國駕照 (備車用)", "訂房證明 / 車票 / 門票憑證", "證件照數枚 (遺失護照備用)", "現金 / 當地貨幣 (日圓)", "信用卡 / 雙幣卡 (Apple Pay)", "台灣住家鑰匙"] },
+            { id: "cat_3c", icon: "📱", title: "3C 與電子裝備", desc: "電力與網路是旅行生命線", color: "blue", items: ["手機 / 充電器 / 傳輸線", "相機 / 充電器 / 備用記憶卡", "自拍棒 / 腳架", "行動電源 (必須放隨身行李！)", "當地轉接頭 / 擴充插座", "Wi-Fi機 / 海外SIM卡 / eSIM", "藍牙耳機"] },
+            { id: "cat_clothes", icon: "👕", title: "服飾與穿搭", desc: "洋蔥式穿搭應付溫差", color: "amber", items: ["上衣 / 褲子 / 裙子", "內衣褲 / 襪子", "好走的球鞋 (超重要！)", "舒適睡衣", "防風薄外套 / 輕薄羽絨衣", "帽子 / 遮陽帽", "雨傘 / 輕便雨衣", "眼鏡 / 太陽眼鏡", "輕便型拖鞋 (飯店內使用)"] },
+            { id: "cat_daily", icon: "🧴", title: "盥洗與生活用品", desc: "個人衛生與保養", color: "teal", items: ["牙刷 / 牙膏 (部分飯店不提供)", "洗髮乳 / 潤髮乳 / 沐浴乳", "洗面乳 / 保養品 / 化妝品", "個人毛巾 (備用)", "面紙 / 濕紙巾", "常備藥 / 腸胃藥 / 止痛藥", "隱形眼鏡 / 藥水", "環保餐具", "洗衣粉 / 洗衣球"] },
+            { id: "cat_season", icon: "🌸", title: "便利旅行小物", desc: "有了它舒適度提升 100%", color: "purple", items: ["口罩 / 防花粉噴霧 (春季必備)", "防曬乳 / 防曬用具", "乳液 / 護手霜 / 護唇膏", "休足時間 / 痠痛貼布", "熱敷蒸氣眼罩", "充氣頸枕", "折疊購物袋", "行李秤 (避免超重神器)"] }
         ];
-
-        const REG_MAP = {}; ITIN.forEach(i => REG_MAP[i.real] = i.r);
 
         /* -----------------------------------------------------------
            2. APP UTILS
@@ -326,9 +328,16 @@
             document.getElementById(`tab-${t}`).classList.add('active');
             if(t==='exp') renderExp(); window.scrollTo(0,0);
         }
+        
+        // 返回頂部
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('btn-top');
+            if (window.scrollY > 300) btn.classList.remove('hidden');
+            else btn.classList.add('hidden');
+        });
 
         /* -----------------------------------------------------------
-           3. ITINERARY RENDERER (行程導航包含美食清單)
+           3. ITINERARY RENDERER (行程導航)
         ----------------------------------------------------------- */
         function renderItin(filter='all') {
             const c = document.getElementById('timeline'); c.innerHTML='';
@@ -337,7 +346,7 @@
             dList.forEach(i => {
                 let ic = i.r==='大阪'?'🐙':i.r==='京都'?'⛩️':'🦌'; if(i.d===1||i.d===12) ic='✈️'; if(i.u) ic='🎢';
                 
-                let bldStep = (arr) => arr.map(a => `<div class="mb-3 last:mb-1"><span class="${a.c} inline-block px-2 py-0.5 rounded text-[10px] font-bold mb-1">${a.l}</span><div class="text-xs font-bold text-slate-800 ml-0.5 mb-1">${a.desc}</div><ul class="text-[11px] text-slate-600 pl-4 list-disc space-y-1">${a.s.map(s=>`<li>${s}</li>`).join('')}</ul></div>`).join('');
+                let bldStep = (arr) => arr.map(a => `<div class="mb-3 last:mb-1"><span class="${a.c} inline-block px-2 py-0.5 rounded text-[10px] font-bold mb-1">${a.l}</span><div class="text-xs font-bold text-slate-800 ml-0.5 mb-1">${a.desc}</div><ul class="text-[11px] text-slate-500 pl-4 list-disc space-y-1">${a.s.map(s=>`<li>${s}</li>`).join('')}</ul></div>`).join('');
                 
                 let uBtn = i.u ? `<button onclick="openUSJ()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg mt-3 text-sm shadow-sm active:scale-95 transition-colors">🌍 開啟環球影城設施指南</button>`:'';
                 let mBtn = i.m ? `<a href="${i.m}" target="_blank" class="flex justify-center items-center gap-1.5 w-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold py-3 rounded-lg mt-3 text-sm border border-blue-200 transition-colors">🗺️ Google Maps 路線導航 <span>→</span></a>`:'';
@@ -345,7 +354,6 @@
                 let tOut = i.o.length ? `<div class="mt-4 border border-slate-200 rounded-lg overflow-hidden"><button onclick="toggleSection('out-${i.d}')" class="w-full flex justify-between bg-slate-50 p-2.5 text-sm font-bold text-slate-700 border-b border-slate-200"><span>🛫 行程出發指南</span><span id="icon-out-${i.d}" class="transition-transform text-slate-400">▼</span></button><div id="content-out-${i.d}" class="hidden p-4 bg-white">${bldStep(i.o)}</div></div>`:'';
                 let tIn = i.i.length ? `<div class="mt-3 border border-slate-200 rounded-lg overflow-hidden"><button onclick="toggleSection('in-${i.d}')" class="w-full flex justify-between bg-slate-50 p-2.5 text-sm font-bold text-slate-700 border-b border-slate-200"><span>🏠 回飯店休息指南</span><span id="icon-in-${i.d}" class="transition-transform text-slate-400">▼</span></button><div id="content-in-${i.d}" class="hidden p-4 bg-white">${bldStep(i.i)}</div></div>`:'';
 
-                // 美食推薦區塊
                 const fData = FOOD_GUIDE[i.r];
                 let fHtml = fData ? `<div class="mt-4 border border-rose-200 rounded-lg overflow-hidden"><button onclick="toggleSection('food-${i.d}')" class="w-full flex justify-between bg-rose-50 p-2.5 text-sm font-bold text-rose-800"><span>🍱 查看【${i.r}】美食推薦</span><span id="icon-food-${i.d}" class="transition-transform text-rose-400">▼</span></button><div id="content-food-${i.d}" class="hidden p-4 bg-white"><div class="flex justify-between items-center border-b border-rose-100 pb-2 mb-2"><span class="font-bold text-rose-900 text-sm">推薦必吃</span><a href="${fData.l}" target="_blank" class="bg-rose-500 text-white text-[10px] px-2 py-1 rounded shadow-sm">🔍 Tabelog</a></div><ul class="text-xs text-slate-600 space-y-1.5">${fData.i.map(f=>`<li><b class="text-rose-700">🍽️ ${f.n}：</b>${f.d}</li>`).join('')}</ul></div></div>` : '';
 
@@ -366,8 +374,8 @@
                             </div>
                             <div class="hidden border-t border-slate-100 p-4 bg-slate-50/30" id="details-day-${i.d}">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                                    <div class="bg-blue-50/50 p-3 rounded-lg border border-blue-100"><h4 class="text-xs font-bold text-blue-800 flex items-center gap-1 mb-1.5"><span>☀️</span> 上午行程</h4><span class="text-slate-700 text-sm font-medium">${i.am}</span></div>
-                                    <div class="bg-orange-50/50 p-3 rounded-lg border border-orange-100"><h4 class="text-xs font-bold text-orange-800 flex items-center gap-1 mb-1.5"><span>🌤️</span> 下午行程</h4><span class="text-slate-700 text-sm font-medium">${i.pm}</span></div>
+                                    <div class="bg-blue-50/50 p-3 rounded-lg border border-blue-100"><h4 class="text-xs font-bold text-blue-800 flex items-center gap-1 mb-1.5"><span>☀️</span> 上午行程</h4><span class="text-slate-700 text-sm font-medium">${i.am||i.a}</span></div>
+                                    <div class="bg-orange-50/50 p-3 rounded-lg border border-orange-100"><h4 class="text-xs font-bold text-orange-800 flex items-center gap-1 mb-1.5"><span>🌤️</span> 下午行程</h4><span class="text-slate-700 text-sm font-medium">${i.pm||i.p}</span></div>
                                 </div>
                                 <div class="text-xs text-slate-700 mb-2 mt-1 flex items-center gap-2"><span class="font-bold text-slate-400">🏨 住宿</span><span class="font-bold bg-slate-100 px-2 py-1 rounded border border-slate-200">${i.h}</span></div>
                                 ${uBtn}${mBtn}${nHtml}${tOut}${tIn}${fHtml}
@@ -397,25 +405,42 @@
         }
 
         /* -----------------------------------------------------------
-           4. PACKING & USJ LOGIC
+           4. PACKING LIST LOGIC (修復最新分類與卡片樣式)
         ----------------------------------------------------------- */
-        let packs = JSON.parse(localStorage.getItem('k_pack_v6')) || {};
+        let packs = JSON.parse(localStorage.getItem('k_pack_v7')) || {};
+        
+        const colorClasses = { 
+            rose: 'bg-rose-50 border-rose-200 text-rose-800', 
+            blue: 'bg-blue-50 border-blue-200 text-blue-800', 
+            amber: 'bg-amber-50 border-amber-200 text-amber-800', 
+            teal: 'bg-teal-50 border-teal-200 text-teal-800', 
+            purple: 'bg-purple-50 border-purple-200 text-purple-800' 
+        };
+
         function initPack() {
             const c = document.getElementById('pack-list'); c.innerHTML='';
+            const grid = document.createElement('div'); grid.className = 'grid grid-cols-1 md:grid-cols-2 gap-4'; c.appendChild(grid);
+            
             PACK_DATA.forEach(cat => {
-                let itemsHtml = cat.iL.map((itm, i) => {
+                let itemsHtml = cat.items.map((itm, i) => {
                     let id = `${cat.id}_${i}`; let chk = packs[id]?'checked':'';
-                    return `<label class="pack-item flex gap-3 p-2 items-center hover:bg-rose-50 rounded-lg cursor-pointer ${chk} transition-colors"><input type="checkbox" class="pack-checkbox hidden" onchange="updPack('${id}', this)" ${chk}><div class="w-5 h-5 border-2 border-slate-300 rounded flex justify-center items-center bg-white"><svg class="hidden w-3 h-3 text-white" viewBox="0 0 17 12"><path fill="currentColor" d="m25.576 11.414l-9.8784 9.1979c-.6465.6465-1.4565.0425-1.4565.0425l-4.1319-3.5255c-.5361-.4572-.1092-1.8443-.1092-1.8443l2.9515 2.5186 8.4984-7.9142c.57-.5338 1.9739.0308 1.9739.0308z" transform="translate(-9 -11)"/></svg></div><span class="text-sm font-bold text-slate-700">${itm}</span></label>`;
+                    return `<label class="pack-item flex gap-3 p-2 items-start hover:bg-slate-50 rounded-lg cursor-pointer ${chk} transition-colors"><input type="checkbox" class="pack-checkbox hidden" onchange="updPack('${id}', this)" ${chk}><div class="w-5 h-5 mt-0.5 border-2 border-slate-300 rounded flex shrink-0 justify-center items-center bg-white"><svg class="hidden w-3 h-3 text-white" viewBox="0 0 17 12"><path fill="currentColor" d="m25.576 11.414l-9.8784 9.1979c-.6465.6465-1.4565.0425-1.4565.0425l-4.1319-3.5255c-.5361-.4572-.1092-1.8443-.1092-1.8443l2.9515 2.5186 8.4984-7.9142c.57-.5338 1.9739.0308 1.9739.0308z" transform="translate(-9 -11)"/></svg></div><span class="text-sm font-bold text-slate-700 leading-tight">${itm}</span></label>`;
                 }).join('');
-                c.insertAdjacentHTML('beforeend', `<div class="mb-4 border border-rose-100 rounded-xl bg-white shadow-sm"><div class="bg-rose-50 px-3 py-2 border-b border-rose-100 text-sm font-black text-rose-800 flex items-center gap-2"><span>${cat.i}</span>${cat.t}</div><div class="p-2 grid grid-cols-1 sm:grid-cols-2 gap-1">${itemsHtml}</div></div>`);
-            }); updPackUI();
+                
+                grid.insertAdjacentHTML('beforeend', `<div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col h-full"><div class="${colorClasses[cat.color]} p-3 border-b border-slate-200 shrink-0"><h3 class="font-black flex items-center gap-2"><span class="text-xl">${cat.icon}</span> ${cat.title}</h3><p class="text-[11px] opacity-90 mt-0.5 ml-8">${cat.desc}</p></div><div class="p-2 flex-1 space-y-0.5">${itemsHtml}</div></div>`);
+            }); 
+            updPackUI();
         }
-        function updPack(id, el) { packs[id]=el.checked; localStorage.setItem('k_pack_v6', JSON.stringify(packs)); el.checked?el.parentNode.classList.add('checked'):el.parentNode.classList.remove('checked'); updPackUI(); }
-        function updPackUI() { let t=0, p=0; PACK_DATA.forEach(c=>t+=c.iL.length); p=Object.values(packs).filter(Boolean).length; let pct=Math.round((p/t)*100)||0; document.getElementById('pack-bar').style.width=pct+'%'; document.getElementById('pack-pct').innerText=pct+'%'; }
-        function resetPack() { if(confirm('要清空所有打勾紀錄嗎？')){packs={}; localStorage.removeItem('k_pack_v6'); initPack();} }
+        
+        function updPack(id, el) { packs[id]=el.checked; localStorage.setItem('k_pack_v7', JSON.stringify(packs)); el.checked?el.parentNode.classList.add('checked'):el.parentNode.classList.remove('checked'); updPackUI(); }
+        function updPackUI() { let t=0, p=0; PACK_DATA.forEach(c=>t+=c.items.length); p=Object.values(packs).filter(Boolean).length; let pct=t===0?0:Math.round((p/t)*100); document.getElementById('pack-bar').style.width=pct+'%'; document.getElementById('pack-pct').innerText=pct+'%'; }
+        function resetPack() { if(confirm('要清空所有打勾紀錄嗎？')){packs={}; localStorage.removeItem('k_pack_v7'); initPack();} }
         function openPack() { openModal('modal-pack'); initPack(); }
         function closePack() { closeModal('modal-pack'); }
 
+        /* -----------------------------------------------------------
+           5. USJ LOGIC
+        ----------------------------------------------------------- */
         let curU = '全部';
         function openUSJ() { openModal('modal-usj'); if(!document.getElementById('usj-filters').innerHTML) initUFilter(); renderUSJ(); }
         function closeUSJ() { closeModal('modal-usj'); }
@@ -435,12 +460,12 @@
 
 
         /* -----------------------------------------------------------
-           5. EXPENSE & LOCKED RATE LOGIC (匯率抓取、鎖定、自訂選項)
+           6. EXPENSE & RATE LOGIC (匯率自動抓取與鎖定)
         ----------------------------------------------------------- */
-        let exps = JSON.parse(localStorage.getItem('k_exp_v6')) || [];
-        let curr = localStorage.getItem('k_curr_v6') || 'TWD';
-        let rate = parseFloat(localStorage.getItem('k_rate_v6')) || 0.21;
-        let budget = parseFloat(localStorage.getItem('k_budget_v6')) || 100000;
+        let exps = JSON.parse(localStorage.getItem('k_exp_v7')) || [];
+        let curr = localStorage.getItem('k_curr_v7') || 'TWD';
+        let rate = parseFloat(localStorage.getItem('k_rate_v7')) || 0.21;
+        let budget = parseFloat(localStorage.getItem('k_budget_v7')) || 100000;
         let chart = null;
 
         const SYM = { 'TWD': 'NT$', 'HKD': 'HK$', 'CNY': 'CN¥', 'USD': 'US$' };
@@ -457,7 +482,7 @@
                 if(data && data.rates && data.rates[curr]) {
                     rate = data.rates[curr];
                     document.getElementById('setting-rate').value = rate.toFixed(4);
-                    localStorage.setItem('k_rate_v6', rate);
+                    localStorage.setItem('k_rate_v7', rate);
                     renderExp(); 
                     if(manual) alert(`✅ 匯率已更新！ ¥1 = ${rate.toFixed(4)} ${curr}`);
                 }
@@ -468,9 +493,9 @@
             }
         }
 
-        function updCurr(v) { curr = v; localStorage.setItem('k_curr_v6', curr); fetchRate(); }
-        function updRate(v) { rate = parseFloat(v) || 0.21; localStorage.setItem('k_rate_v6', rate); renderExp(); updNTD(); }
-        function updBudget(v) { budget = parseFloat(v) || 100000; localStorage.setItem('k_budget_v6', budget); renderExp(); }
+        function updCurr(v) { curr = v; localStorage.setItem('k_curr_v7', curr); fetchRate(); }
+        function updRate(v) { rate = parseFloat(v) || 0.21; localStorage.setItem('k_rate_v7', rate); renderExp(); updNTD(); }
+        function updBudget(v) { budget = parseFloat(v) || 100000; localStorage.setItem('k_budget_v7', budget); renderExp(); }
         
         function updNTD() { let j = parseFloat(document.getElementById('e-amt').value)||0; document.getElementById('e-ntd').innerText=`約 ${SYM[curr]} ${Math.round(j*rate).toLocaleString()}`; }
         function autoRegion() { let d = document.getElementById('e-date').value; document.getElementById('e-region').value = REG_MAP[d] || "自訂地區"; }
@@ -508,10 +533,10 @@
                 s: document.getElementById('e-store').value, i: document.getElementById('e-items').value, c: document.querySelector('input[name="e-cat"]:checked').value, p: document.getElementById('e-pay').value, w: document.getElementById('e-who').value 
             };
             if(id){ let idx=exps.findIndex(x=>x.id===id); if(idx>-1) exps[idx]=d; } else exps.push(d);
-            localStorage.setItem('k_exp_v6', JSON.stringify(exps)); closeExp(); renderExp();
+            localStorage.setItem('k_exp_v7', JSON.stringify(exps)); closeExp(); renderExp();
         }
         
-        function delExp(id) { if(confirm("確定要刪除這筆記錄嗎？")){ exps=exps.filter(x=>x.id!==id); localStorage.setItem('k_exp_v6', JSON.stringify(exps)); renderExp(); } }
+        function delExp(id) { if(confirm("確定要刪除這筆記錄嗎？")){ exps=exps.filter(x=>x.id!==id); localStorage.setItem('k_exp_v7', JSON.stringify(exps)); renderExp(); } }
 
         function renderExp() {
             let td = new Date().toISOString().split('T')[0]; let dDt = (td<"2026-04-19"||td>"2026-04-30")?"2026-04-19":td;
@@ -519,7 +544,7 @@
             
             exps.forEach(e => { 
                 let jpy = e.aJ || 0; 
-                // 為了儀表板總和：如果該筆記錄的幣別等於當下畫面的幣別，則直接使用鎖定金額，否則利用目前最新匯率動態轉換 JPY (避免 TWD 加 USD 的情況)
+                // 為了儀表板總和：如果該筆記錄的幣別等於當下畫面的幣別，則直接使用鎖定金額，否則利用目前最新匯率轉換 JPY 
                 let c_amt = (e.cC === curr && e.aC) ? e.aC : Math.round(jpy * rate); 
 
                 tJ+=jpy; tC+=c_amt; 
@@ -557,7 +582,7 @@
         }
 
         /* -----------------------------------------------------------
-           6. AI SCANNER LOGIC
+           7. AI SCANNER LOGIC
         ----------------------------------------------------------- */
         function openAI() { openModal('modal-ai'); document.getElementById('ai-preview').classList.add('hidden'); document.getElementById('ai-prompt').classList.remove('hidden'); document.getElementById('btn-ai').disabled=true; document.getElementById('ai-file').value=''; document.getElementById('ai-load').classList.add('hidden'); }
         function closeAI() { closeModal('modal-ai'); }
@@ -575,7 +600,7 @@
         }
 
         /* -----------------------------------------------------------
-           7. INIT
+           8. INIT
         ----------------------------------------------------------- */
         document.addEventListener('DOMContentLoaded', () => { 
             fetchRate(); // 載入即時匯率
